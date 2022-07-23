@@ -1289,38 +1289,37 @@ Key                        关键字
 Item                        项，或者译为 条目
 
 
-字典对象的方法有6个：Add方法、Keys方法、Items方法、Exists方法、Remove方法、RemoveAll方法。
-Add方法
-向 Dictionary 对象中添加一个关键字项目对。
-`object.Add (key, item)`
+字典对象的方法有6个：`Add`方法、`Keys`方法、`Items`方法、`Exists`方法、`Remove`方法、`RemoveAll`方法。
+
+`Add`方法
+向 `Dictionary` 对象中添加一个关键字项目对。
+```vba
+object.Add (key, item)
+```
 参数
 `object`
-必选项。总是一个 Dictionary 对象的名称。
+必选项。总是一个 `Dictionary` 对象的名称。
 `key`
-必选项。与被添加的 item 相关联的 key。
-item
-必选项。与被添加的 key 相关联的 item。
+必选项。与被添加的 `item` 相关联的 `key`。
+`item`
+必选项。与被添加的 `key` 相关联的 `item`。
 说明
-如果 key 已经存在，那么将导致一个错误。
+如果 `key` 已经存在，那么将导致一个错误。
 
 常用语句：
 ```vba
-Dim d   
-Set d = CreateObject("Scripting.Dictionary")
-d.Add "a", "Athens"   
-d.Add "b", "Belgrade"
-d.Add "c", "Cairo"
+Dim d   '创建变量，也称为声明变量
+Set d = CreateObject("Scripting.Dictionary")    '创建字典对象，并把字典对象赋给变量d。这是最常用的一句代码。所谓的“后期绑定”。用了这句代码就不用先引用c:\windows\system32\scrrun.dll了。
+d.Add "a", "Athens"   '添加一关键字”a”和对应于它的项”Athens”
+d.Add "b", "Belgrade"   '添加一关键字”b”和对应于它的项”Belgrade”
+d.Add "c", "Cairo"  '添加一关键字”c”和对应于它的项”Cairo”
 ```
-代码详解
-1、`Dim d` ：创建变量，也称为声明变量。变量d声明为可变型数据类型(Variant)，d后面没有写数据类型，默认就是可变型数据类型(Variant)。也有写成Dim d As Object的，声明为对象。
-2、`Set d = CreateObject("Scripting.Dictionary")`：创建字典对象，并把字典对象赋给变量d。这是最常用的一句代码。所谓的“后期绑定”。用了这句代码就不用先引用c:\windows\system32\scrrun.dll了。
-3、`d.Add "a", "Athens"`：添加一关键字”a”和对应于它的项”Athens”。
-4、`d.Add "b", “Belgrade”`：添加一关键字”b”和对应于它的项”Belgrade”。
-5、`d.Add "c", “Cairo”`：添加一关键字”c”和对应于它的项”Cairo”。
 
-Exists方法
-如果 Dictionary 对象中存在所指定的关键字则返回 true，否则返回 false。
+`Exists`方法
+如果 Dictionary 对象中存在所指定的关键字则返回 `true`，否则返回 `false`。
+```vba
 object.Exists(key)
+```
 参数
 object
 必选项。总是一个 Dictionary 对象的名称。
@@ -1330,25 +1329,17 @@ key
 常用语句：
 
 ```vba
-Dim d, msg$   
+Dim d, msg$   'msg$ 声明为字符串数据类型String，一般写法为Dim msg As String。String 的类型声明字符为美元号 ($)。
    Set d = CreateObject("Scripting.Dictionary")
    d.Add "a", "Athens"   
    d.Add "b", "Belgrade"
    d.Add "c", "Cairo"
-   If d.Exists("c") Then
+   If d.Exists("c") Then    '如果字典中存在关键字”c”，那么执行下面的语句
       msg = "指定的关键字已经存在。"
    Else
       msg = "指定的关键字不存在。"
    End If
 ```
-
-代码详解
-1、`Dim d, msg$` ：声明变量，d见前例；msg$ 声明为字符串数据类型(String)，一般写法为Dim msg As String。String 的类型声明字符为美元号 ($)。
-2、`If d.Exists("c") Then`：如果字典中存在关键字”c”，那么执行下面的语句。
-3、`msg =` "指定的关键字已经存在。" ：把"指定的关键字已经存在。"字符串赋给变量msg。
-4、`Else` ：否则执行下面的语句。
-5、`msg =` "指定的关键字不存在。" ：把"指定的关键字不存在。"字符串赋给变量msg。
-6、`End If` ：结束If …Else…Endif判断。
 
 Keys方法
 返回一个数组，其中包含了一个 Dictionary 对象中的全部现有的关键字。
@@ -1363,17 +1354,13 @@ Dim d, k
    d.Add "a", "Athens"   
    d.Add "b", "Belgrade"
    d.Add "c", "Cairo"
-   k=d.Keys
-   [B1].Resize(d.Count,1)=Application.Transpose(k)
+   k=d.Keys '把字典中存在的所有的关键字赋给变量k。得到的是一个一维数组，下限为0，上限为d.Count-1。这是数组的默认形式。
+   [B1].Resize(d.Count,1)=Application.Transpose(k)  
+   'Resize是Range对象的一个属性，用于调整指定区域的大小，它有两个参数，第一个是行数，本例是d.Count，指的是字典中关键字的数量，整本字典中有多少个关键字，本例d.Count=3，因为有3个关键字。第二个是列数，本例是1。这样＝左边的意思就是：把一个单元格B1调整为以B1开始的一列单元格区域，行数等于字典中关键字的数量d.Count，就是把单元格B1调整为单元格区域B1：B3了。＝右边的k是个一维数组，是水平排列的，我们知道Excel工作表函数里面有个转置函数Transpose，用它可以把水平排列的置换成竖向排列。但是在VBA中不能直接使用该工作表函数，需要通过Application对象的WorksheetFunction属性来使用它。所以完整的写法是Application. WorksheetFunction.Transpose(k)，中间的WorksheetFunction可省略。现在可以解释这句代码了：把字典中所有的关键字赋给以B1单元格开始的单元格区域中。
 ```
 
-代码详解
-1、Dim d, k ：声明变量，d见前例；k默认是可变型数据类型(Variant)。
-2、k=d.Keys：把字典中存在的所有的关键字赋给变量k。得到的是一个一维数组，下限为0，上限为d.Count-1。这是数组的默认形式。
-3、[B1].Resize(d.Count,1)=Application.Transpose(k) ：这句代码是很常用很经典的代码，所以这里要多说一些。
-Resize是Range对象的一个属性，用于调整指定区域的大小，它有两个参数，第一个是行数，本例是d.Count，指的是字典中关键字的数量，整本字典中有多少个关键字，本例d.Count=3，因为有3个关键字。呵呵，是不是说多了。
-第二个是列数，本例是1。这样＝左边的意思就是：把一个单元格B1调整为以B1开始的一列单元格区域，行数等于字典中关键字的数量d.Count，就是把单元格B1调整为单元格区域B1：B3了。
-＝右边的k是个一维数组，是水平排列的，我们知道Excel工作表函数里面有个转置函数Transpose，用它可以把水平排列的置换成竖向排列。但是在VBA中不能直接使用该工作表函数，需要通过Application对象的WorksheetFunction属性来使用它。所以完整的写法是Application. WorksheetFunction.Transpose(k)，中间的WorksheetFunction可省略。现在可以解释这句代码了：把字典中所有的关键字赋给以B1单元格开始的单元格区域中。
+
+
 Items方法
 返回一个数组，其中包含了一个 Dictionary 对象中的所有项目。
 object.Items( )
